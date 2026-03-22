@@ -7,84 +7,43 @@
 <style>
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
   :root {
-    --bg: #ffffff;
-    --bg2: #f5f4f0;
-    --bg3: #eeedea;
-    --border: rgba(0,0,0,0.1);
-    --border2: rgba(0,0,0,0.18);
-    --text: #1a1a18;
-    --text2: #6b6a65;
-    --text3: #9b9a95;
-    --green: #1D9E75;
-    --red: #E24B4A;
-    --amber: #BA7517;
+    --bg: #ffffff; --bg2: #f5f4f0; --bg3: #eeedea;
+    --border: rgba(0,0,0,0.1); --border2: rgba(0,0,0,0.18);
+    --text: #1a1a18; --text2: #6b6a65; --text3: #9b9a95;
+    --green: #1D9E75; --red: #E24B4A; --amber: #BA7517;
   }
   @media (prefers-color-scheme: dark) {
     :root {
-      --bg: #1a1a18;
-      --bg2: #242422;
-      --bg3: #2e2e2b;
-      --border: rgba(255,255,255,0.1);
-      --border2: rgba(255,255,255,0.18);
-      --text: #e8e6df;
-      --text2: #9b9a95;
-      --text3: #6b6a65;
+      --bg: #1a1a18; --bg2: #242422; --bg3: #2e2e2b;
+      --border: rgba(255,255,255,0.1); --border2: rgba(255,255,255,0.18);
+      --text: #e8e6df; --text2: #9b9a95; --text3: #6b6a65;
     }
   }
-  body {
-    font-family: 'DM Sans', -apple-system, sans-serif;
-    background: var(--bg);
-    color: var(--text);
-    min-height: 100vh;
-    padding: 24px 16px 48px;
-  }
-  h1 {
-    font-size: 20px;
-    font-weight: 600;
-    color: var(--text);
-    margin-bottom: 4px;
-  }
+  body { font-family: 'DM Sans', -apple-system, sans-serif; background: var(--bg); color: var(--text); min-height: 100vh; padding: 24px 16px 48px; }
+  h1 { font-size: 20px; font-weight: 600; margin-bottom: 4px; }
   .subtitle { font-size: 12px; color: var(--text3); margin-bottom: 20px; }
   .top-bar { display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 16px; align-items: center; max-width: 760px; }
-  .fbtn {
-    font-size: 11.5px; padding: 4px 12px; border-radius: 20px;
-    border: 0.5px solid var(--border2); background: transparent;
-    color: var(--text2); cursor: pointer; transition: background .15s, color .15s;
-    font-family: inherit;
-  }
+  .fbtn { font-size: 11.5px; padding: 4px 12px; border-radius: 20px; border: 0.5px solid var(--border2); background: transparent; color: var(--text2); cursor: pointer; transition: background .15s; font-family: inherit; }
   .fbtn:hover, .fbtn.active { background: var(--bg2); color: var(--text); }
   .fbtn.red { color: var(--red); }
-  .edit-btn {
-    font-size: 11.5px; padding: 4px 12px; border-radius: 20px;
-    border: 0.5px solid var(--border2); background: transparent;
-    color: var(--text2); cursor: pointer; font-family: inherit;
-  }
+  .edit-btn { font-size: 11.5px; padding: 4px 12px; border-radius: 20px; border: 0.5px solid var(--border2); background: transparent; color: var(--text2); cursor: pointer; font-family: inherit; }
   .edit-btn.on { background: #FAEEDA; color: #633806; border-color: #EF9F27; }
   @media (prefers-color-scheme: dark) { .edit-btn.on { background: #412402; color: #FAC775; } }
   .spacer { flex: 1; }
+  .save-ind { font-size: 10px; color: var(--text3); opacity: 0; transition: opacity .4s; margin-right: 4px; }
+  .save-ind.error { color: var(--red); }
   .prog-wrap { display: flex; align-items: center; gap: 8px; }
   .prog-track { width: 90px; height: 4px; background: var(--border); border-radius: 2px; }
   .prog-fill { height: 4px; background: var(--green); border-radius: 2px; transition: width .3s; }
   .prog-txt { font-size: 11px; color: var(--text3); white-space: nowrap; }
   .cards { max-width: 760px; }
-  .break-divider {
-    text-align: center; font-size: 11px; font-style: italic; color: var(--text3);
-    padding: 10px 0; border-top: 0.5px dashed var(--border); border-bottom: 0.5px dashed var(--border);
-    margin: 8px 0;
-  }
-  .week-card {
-    border: 0.5px solid var(--border); border-radius: 12px;
-    margin-bottom: 10px; overflow: hidden; background: var(--bg);
-  }
+  .break-divider { text-align: center; font-size: 11px; font-style: italic; color: var(--text3); padding: 10px 0; border-top: 0.5px dashed var(--border); border-bottom: 0.5px dashed var(--border); margin: 8px 0; }
+  .week-card { border: 0.5px solid var(--border); border-radius: 12px; margin-bottom: 10px; overflow: hidden; background: var(--bg); }
   .week-card.hidden { display: none; }
   .week-card.behind { border-left: 3px solid var(--red); }
   .week-card.current { border-left: 3px solid var(--green); }
   .week-card.exam-card { border-left: 3px solid var(--amber); }
-  .card-head {
-    display: flex; align-items: center; gap: 10px;
-    padding: 10px 14px; cursor: pointer; user-select: none;
-    transition: background .15s;
-  }
+  .card-head { display: flex; align-items: center; gap: 10px; padding: 10px 14px; cursor: pointer; user-select: none; transition: background .15s; }
   .card-head:hover { background: var(--bg2); }
   .wk-num { font-size: 13px; font-weight: 600; color: var(--text); }
   .wk-dates { font-size: 11px; color: var(--text3); }
@@ -98,31 +57,20 @@
   .week-card.collapsed .card-body { display: none; }
   .subj-row { display: flex; align-items: center; gap: 10px; padding: 8px 14px; border-top: 0.5px solid var(--border); }
   .subj-dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
-  .dot-CAD { background: #378ADD; } .dot-Vibrations { background: #1D9E75; }
-  .dot-Materials { background: #7F77DD; } .dot-Heat { background: #D85A30; }
+  .dot-CAD{background:#378ADD;} .dot-Vibrations{background:#1D9E75;} .dot-Materials{background:#7F77DD;} .dot-Heat{background:#D85A30;}
   .subj-name { font-size: 12px; font-weight: 600; color: var(--text); width: 72px; flex-shrink: 0; }
   .pills { display: flex; flex-wrap: wrap; gap: 4px; flex: 1; align-items: center; }
-  .pill {
-    font-size: 11px; padding: 3px 9px; border-radius: 20px; cursor: pointer;
-    transition: opacity .15s; user-select: none; display: flex; align-items: center; gap: 4px;
-    font-family: inherit;
-  }
+  .pill { font-size: 11px; padding: 3px 9px; border-radius: 20px; cursor: pointer; transition: opacity .15s; user-select: none; display: flex; align-items: center; gap: 4px; font-family: inherit; }
   .pill.done { opacity: 0.28; text-decoration: line-through; }
   .pill::before { content: ''; display: inline-block; width: 7px; height: 7px; border-radius: 50%; border: 1.5px solid currentColor; flex-shrink: 0; }
   .pill.done::before { background: currentColor; }
-  .p-lec { background: #E6F1FB; color: #0C447C; }
-  .p-tut { background: #E1F5EE; color: #085041; }
-  .p-lab { background: #FAEEDA; color: #633806; }
-  .p-wksh { background: #EEEDFE; color: #3C3489; }
-  .p-asgn { background: #FAECE7; color: #712B13; }
-  .p-exam { background: #FAEEDA; color: #633806; }
+  .p-lec{background:#E6F1FB;color:#0C447C;} .p-tut{background:#E1F5EE;color:#085041;}
+  .p-lab{background:#FAEEDA;color:#633806;} .p-wksh{background:#EEEDFE;color:#3C3489;}
+  .p-asgn{background:#FAECE7;color:#712B13;} .p-exam{background:#FAEEDA;color:#633806;}
   @media (prefers-color-scheme: dark) {
-    .p-lec { background: #0C447C; color: #B5D4F4; }
-    .p-tut { background: #085041; color: #9FE1CB; }
-    .p-lab { background: #633806; color: #FAC775; }
-    .p-wksh { background: #3C3489; color: #CECBF6; }
-    .p-asgn { background: #712B13; color: #F5C4B3; }
-    .p-exam { background: #633806; color: #FAC775; }
+    .p-lec{background:#0C447C;color:#B5D4F4;} .p-tut{background:#085041;color:#9FE1CB;}
+    .p-lab{background:#633806;color:#FAC775;} .p-wksh{background:#3C3489;color:#CECBF6;}
+    .p-asgn{background:#712B13;color:#F5C4B3;} .p-exam{background:#633806;color:#FAC775;}
   }
   .due { font-size: 10px; color: var(--red); font-weight: 500; margin-left: 2px; }
   .del-pill { display: none; margin-left: 2px; font-size: 11px; opacity: 0.6; cursor: pointer; }
@@ -130,32 +78,24 @@
   .pill:hover .del-pill { opacity: 1; }
   .add-row { display: none; padding: 6px 14px 8px; border-top: 0.5px solid var(--border); gap: 6px; flex-wrap: wrap; align-items: center; }
   .edit-mode .add-row { display: flex; }
-  .add-row select, .add-row input {
-    font-size: 11.5px; padding: 3px 8px; border-radius: 8px;
-    border: 0.5px solid var(--border2); background: var(--bg);
-    color: var(--text); height: 26px; font-family: inherit;
-  }
-  .add-row input { width: 130px; }
-  .add-row .add-due { width: 100px; }
-  .add-row button {
-    font-size: 11px; padding: 3px 10px; border-radius: 8px;
-    border: 0.5px solid var(--border2); background: var(--bg2);
-    color: var(--text); cursor: pointer; font-family: inherit;
-  }
+  .add-row select, .add-row input { font-size: 11.5px; padding: 3px 8px; border-radius: 8px; border: 0.5px solid var(--border2); background: var(--bg); color: var(--text); height: 26px; font-family: inherit; }
+  .add-row input { width: 130px; } .add-row .add-due { width: 100px; }
+  .add-row button { font-size: 11px; padding: 3px 10px; border-radius: 8px; border: 0.5px solid var(--border2); background: var(--bg2); color: var(--text); cursor: pointer; font-family: inherit; }
   .add-lbl { font-size: 11px; color: var(--text3); }
-  .week-cb {
-    width: 16px; height: 16px; border-radius: 4px; border: 1.5px solid var(--border2);
-    flex-shrink: 0; display: flex; align-items: center; justify-content: center;
-    cursor: pointer; transition: background .15s, border-color .15s;
-  }
+  .week-cb { width: 16px; height: 16px; border-radius: 4px; border: 1.5px solid var(--border2); flex-shrink: 0; display: flex; align-items: center; justify-content: center; cursor: pointer; transition: background .15s, border-color .15s; }
   .week-cb.ticked { background: var(--green); border-color: var(--green); }
   .week-cb.ticked::after { content: ''; display: block; width: 9px; height: 5px; border-left: 2px solid #fff; border-bottom: 2px solid #fff; transform: rotate(-45deg) translate(1px,-1px); }
+  .loading-overlay { position: fixed; inset: 0; background: var(--bg); display: flex; align-items: center; justify-content: center; z-index: 999; font-size: 13px; color: var(--text3); transition: opacity .3s; }
+  .loading-overlay.hidden { opacity: 0; pointer-events: none; }
 </style>
 </head>
 <body>
+
+<div class="loading-overlay" id="loader">Loading your tracker...</div>
+
 <h1>Uni semester tracker</h1>
-<p class="subtitle">2026 — CAD, Vibrations, Materials, Heat</p>
-<div class="top-bar" id="topbar">
+<p class="subtitle">2026 &mdash; CAD, Vibrations, Materials, Heat</p>
+<div class="top-bar">
   <button class="fbtn active" onclick="filt('all',this)">All</button>
   <button class="fbtn red" onclick="filt('behind',this)">Behind</button>
   <button class="fbtn" onclick="filt('upcoming',this)">Upcoming</button>
@@ -164,6 +104,7 @@
   <button class="fbtn" onclick="filt('Materials',this)">Materials</button>
   <button class="fbtn" onclick="filt('Heat',this)">Heat</button>
   <div class="spacer"></div>
+  <span class="save-ind" id="saveInd">Saved</span>
   <button class="edit-btn" id="editToggle" onclick="toggleEdit()">Edit mode</button>
   <div class="prog-wrap">
     <div class="prog-track"><div class="prog-fill" id="prog" style="width:0%"></div></div>
@@ -173,39 +114,34 @@
 <div class="cards" id="cards"></div>
 
 <script>
+var BIN_ID='69c02838aa77b81da90b01b2';
+var API_KEY='$2a$10$3I3f/ztA/EPsmH9y/M965.cZsB6VN/LNgyuNHsyS.c1l0oNNWupP2';
+var BIN_URL='https://api.jsonbin.io/v3/b/'+BIN_ID;
+
 var subjects=['CAD','Vibrations','Materials','Heat'];
 var pillCls={lec:'p-lec',tut:'p-tut',lab:'p-lab',wksh:'p-wksh',asgn:'p-asgn',exam:'p-exam'};
-var editMode=false;
-var pillMap={};
-var cardPills={};
-var idCounter=0;
+var editMode=false,pillMap={},cardPills={},idCounter=0,saveTimer=null,saving=false;
 var chevSvg='<svg viewBox="0 0 12 12"><polyline points="2,4 6,8 10,4"/></svg>';
 
 var SEMESTER_START=new Date(2026,1,16,0,0,0,0);
 var BREAK_START=new Date(2026,3,6,0,0,0,0);
 var BREAK_END=new Date(2026,3,20,0,0,0,0);
-var MS_PER_WEEK=7*24*60*60*1000;
 
 function getWeekStart(wk){
-  var d=new Date(SEMESTER_START.getTime()+(wk-1)*MS_PER_WEEK);
+  var d=new Date(SEMESTER_START.getTime()+(wk-1)*7*24*60*60*1000);
   if(d>=BREAK_START) d=new Date(d.getTime()+(BREAK_END-BREAK_START));
   return d;
 }
-
 function fmtDate(d){
-  var months=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
-  return d.getDate()+' '+months[d.getMonth()];
+  var m=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+  return d.getDate()+' '+m[d.getMonth()];
 }
-
 function getWeekLabel(wk){
-  var s=getWeekStart(wk);
-  var e=new Date(s.getTime()+6*24*60*60*1000);
+  var s=getWeekStart(wk),e=new Date(s.getTime()+6*24*60*60*1000);
   return fmtDate(s)+' \u2013 '+fmtDate(e);
 }
-
 function getCurrentWeek(){
-  var now=new Date();
-  now.setHours(0,0,0,0);
+  var now=new Date(); now.setHours(0,0,0,0);
   if(now<SEMESTER_START) return 1;
   if(now>=BREAK_START&&now<BREAK_END) return -1;
   var adj=new Date(now.getTime());
@@ -213,14 +149,11 @@ function getCurrentWeek(){
   var days=Math.floor((adj-SEMESTER_START)/(24*60*60*1000));
   return Math.min(12,Math.max(1,Math.floor(days/7)+1));
 }
-
 var currentWeek=getCurrentWeek();
-
 function displayWk(wk){ return wk<=7?wk:wk+2; }
 
 function getTasks(wk,subj){
-  var t=[];
-  var dWk=displayWk(wk);
+  var t=[],dWk=displayWk(wk);
   t.push({type:'lec',label:'Lecture',due:''});
   if(subj!=='CAD') t.push({type:'tut',label:'Tutorial',due:''});
   if(subj==='CAD') t.push({type:'lab',label:'Lab',due:''});
@@ -235,16 +168,66 @@ function getTasks(wk,subj){
   return t;
 }
 
-function makePillEl(task,cardId){
-  var id='p'+(++idCounter);
-  var cls=pillCls[task.type]||'p-lec';
+function showInd(msg,isErr){
+  var el=document.getElementById('saveInd');
+  el.textContent=msg;
+  el.className='save-ind'+(isErr?' error':'');
+  el.style.opacity='1';
+  clearTimeout(saveTimer);
+  saveTimer=setTimeout(function(){el.style.opacity='0';},isErr?3000:1500);
+}
+
+function getState(){
+  var s={};
+  Object.keys(pillMap).forEach(function(id){
+    if(pillMap[id].key) s[pillMap[id].key]=pillMap[id].done;
+  });
+  return s;
+}
+
+function applyState(s){
+  if(!s) return;
+  Object.keys(pillMap).forEach(function(id){
+    var k=pillMap[id].key;
+    if(k&&s[k]!==undefined&&s[k]!==pillMap[id].done){
+      pillMap[id].done=s[k];
+      var el=document.getElementById(id);
+      if(el) el.classList.toggle('done',s[k]);
+    }
+  });
+  Object.keys(cardPills).forEach(function(cid){ updateCardProg(cid); });
+  updateProgDisplay();
+}
+
+function cloudLoad(cb){
+  fetch(BIN_URL+'/latest',{headers:{'X-Master-Key':API_KEY,'X-Bin-Meta':false}})
+    .then(function(r){return r.json();})
+    .then(function(data){ cb(data||{}); })
+    .catch(function(){ cb(null); });
+}
+
+function cloudSave(){
+  if(saving) return;
+  saving=true;
+  var state=getState();
+  try{ localStorage.setItem('uni_tracker_v1',JSON.stringify(state)); }catch(e){}
+  fetch(BIN_URL,{
+    method:'PUT',
+    headers:{'Content-Type':'application/json','X-Master-Key':API_KEY},
+    body:JSON.stringify(state)
+  })
+  .then(function(r){ saving=false; if(r.ok) showInd('Saved \u2713'); else showInd('Save failed',true); })
+  .catch(function(){ saving=false; showInd('Offline \u2014 saved locally',true); });
+}
+
+function makePillEl(task,cardId,stableKey){
+  var id='p'+(++idCounter),cls=pillCls[task.type]||'p-lec';
   var dueHtml=task.due?'<span class="due">'+task.due+'</span>':'';
   var el=document.createElement('span');
-  el.className='pill '+cls;
-  el.id=id;
+  el.className='pill '+cls; el.id=id;
   el.innerHTML=task.label+dueHtml+'<span class="del-pill" onclick="delPill(event,\''+id+'\')">&#10005;</span>';
   el.addEventListener('click',function(e){if(!e.target.classList.contains('del-pill'))tickPill(id);});
-  pillMap[id]={done:false,cardId:cardId};
+  pillMap[id]={done:false,cardId:cardId,key:stableKey};
   if(!cardPills[cardId])cardPills[cardId]=[];
   cardPills[cardId].push(id);
   return el;
@@ -254,57 +237,33 @@ function buildCard(wk){
   var cardId='card-wk'+wk;
   var status=wk<currentWeek?'behind':wk===currentWeek?'current':'upcoming';
   var collapsed=wk<currentWeek;
-  cardPills[cardId]=[];
-  var dWk=displayWk(wk);
-
+  cardPills[cardId]=[]; var dWk=displayWk(wk);
   var card=document.createElement('div');
   card.className='week-card '+status+(collapsed?' collapsed':'');
-  card.id=cardId;
-  card.setAttribute('data-status',status);
-
+  card.id=cardId; card.setAttribute('data-status',status);
   var badgeHtml=status==='current'?'<span class="wk-badge badge-current">current</span>':'';
-  var head=document.createElement('div');
-  head.className='card-head';
-
-  var weekCb=document.createElement('div');
-  weekCb.className='week-cb';
-  weekCb.id='wcb-'+cardId;
-  weekCb.title='Tick all tasks this week';
+  var head=document.createElement('div'); head.className='card-head';
+  var weekCb=document.createElement('div'); weekCb.className='week-cb'; weekCb.id='wcb-'+cardId;
   weekCb.addEventListener('click',function(e){e.stopPropagation();tickWeek(cardId);});
-
   var headInner=document.createElement('span');
   headInner.style.cssText='display:flex;align-items:center;gap:8px;flex:1;min-width:0;';
   headInner.innerHTML='<span class="wk-num">Week '+dWk+'</span><span class="wk-dates">'+getWeekLabel(wk)+'</span>'+badgeHtml+'<span class="card-prog" id="cprog-'+cardId+'"></span>';
   headInner.addEventListener('click',function(){card.classList.toggle('collapsed');});
-
-  var chev=document.createElement('div');
-  chev.className='chevron';
-  chev.innerHTML=chevSvg;
+  var chev=document.createElement('div'); chev.className='chevron'; chev.innerHTML=chevSvg;
   chev.addEventListener('click',function(){card.classList.toggle('collapsed');});
-
-  head.appendChild(weekCb);
-  head.appendChild(headInner);
-  head.appendChild(chev);
-  card.appendChild(head);
-
-  var body=document.createElement('div');
-  body.className='card-body';
-
+  head.appendChild(weekCb); head.appendChild(headInner); head.appendChild(chev); card.appendChild(head);
+  var body=document.createElement('div'); body.className='card-body';
   subjects.forEach(function(subj){
     var key=wk+'-'+subj;
-    var row=document.createElement('div');
-    row.className='subj-row';
-    row.setAttribute('data-subj',subj);
+    var row=document.createElement('div'); row.className='subj-row'; row.setAttribute('data-subj',subj);
     row.innerHTML='<div class="subj-dot dot-'+subj+'"></div><span class="subj-name">'+subj+'</span>';
-    var pillsDiv=document.createElement('div');
-    pillsDiv.className='pills';
-    pillsDiv.id='pills-'+key;
-    getTasks(wk,subj).forEach(function(task){pillsDiv.appendChild(makePillEl(task,cardId));});
-    row.appendChild(pillsDiv);
-    body.appendChild(row);
-
-    var addRow=document.createElement('div');
-    addRow.className='add-row';
+    var pillsDiv=document.createElement('div'); pillsDiv.className='pills'; pillsDiv.id='pills-'+key;
+    getTasks(wk,subj).forEach(function(task){
+      var sk=key+'-'+task.type+'-'+task.label.replace(/\s/g,'_');
+      pillsDiv.appendChild(makePillEl(task,cardId,sk));
+    });
+    row.appendChild(pillsDiv); body.appendChild(row);
+    var addRow=document.createElement('div'); addRow.className='add-row';
     addRow.innerHTML='<span class="add-lbl">'+subj+':</span>'
       +'<select id="sel-type-'+key+'"><option value="lec">Lecture</option><option value="tut">Tutorial</option><option value="lab">Lab</option><option value="wksh">Workshop</option><option value="asgn">Assignment</option></select>'
       +'<input id="sel-label-'+key+'" placeholder="Task name"/>'
@@ -312,54 +271,31 @@ function buildCard(wk){
       +'<button onclick="addTask(\''+key+'\',\''+cardId+'\',\'pills-'+key+'\')">+ Add</button>';
     body.appendChild(addRow);
   });
-
-  card.appendChild(body);
-  updateCardProg(cardId);
-  return card;
+  card.appendChild(body); updateCardProg(cardId); return card;
 }
 
 function buildExamCard(){
-  var cardId='card-exam';
-  cardPills[cardId]=[];
+  var cardId='card-exam'; cardPills[cardId]=[];
   var card=document.createElement('div');
-  card.className='week-card exam-card collapsed';
-  card.id=cardId;
-  card.setAttribute('data-status','exam');
-
-  var head=document.createElement('div');
-  head.className='card-head';
-  var weekCb=document.createElement('div');
-  weekCb.className='week-cb';
-  weekCb.id='wcb-'+cardId;
+  card.className='week-card exam-card collapsed'; card.id=cardId; card.setAttribute('data-status','exam');
+  var head=document.createElement('div'); head.className='card-head';
+  var weekCb=document.createElement('div'); weekCb.className='week-cb'; weekCb.id='wcb-'+cardId;
   weekCb.addEventListener('click',function(e){e.stopPropagation();tickWeek(cardId);});
   var headInner=document.createElement('span');
   headInner.style.cssText='display:flex;align-items:center;gap:8px;flex:1;';
   headInner.innerHTML='<span class="wk-num">Exam period</span><span class="wk-dates">from 1 Jun</span><span class="card-prog" id="cprog-'+cardId+'"></span>';
   headInner.addEventListener('click',function(){card.classList.toggle('collapsed');});
-  var chev=document.createElement('div');
-  chev.className='chevron';
-  chev.innerHTML=chevSvg;
+  var chev=document.createElement('div'); chev.className='chevron'; chev.innerHTML=chevSvg;
   chev.addEventListener('click',function(){card.classList.toggle('collapsed');});
-  head.appendChild(weekCb);
-  head.appendChild(headInner);
-  head.appendChild(chev);
-  card.appendChild(head);
-
-  var body=document.createElement('div');
-  body.className='card-body';
+  head.appendChild(weekCb); head.appendChild(headInner); head.appendChild(chev); card.appendChild(head);
+  var body=document.createElement('div'); body.className='card-body';
   subjects.forEach(function(subj){
-    var row=document.createElement('div');
-    row.className='subj-row';
-    row.setAttribute('data-subj',subj);
+    var row=document.createElement('div'); row.className='subj-row'; row.setAttribute('data-subj',subj);
     row.innerHTML='<div class="subj-dot dot-'+subj+'"></div><span class="subj-name">'+subj+'</span>';
-    var pillsDiv=document.createElement('div');
-    pillsDiv.className='pills';
-    pillsDiv.id='pills-exam-'+subj;
-    pillsDiv.appendChild(makePillEl({type:'exam',label:'Final exam',due:'from 1 Jun'},cardId));
-    row.appendChild(pillsDiv);
-    body.appendChild(row);
-    var addRow=document.createElement('div');
-    addRow.className='add-row';
+    var pillsDiv=document.createElement('div'); pillsDiv.className='pills'; pillsDiv.id='pills-exam-'+subj;
+    pillsDiv.appendChild(makePillEl({type:'exam',label:'Final exam',due:'from 1 Jun'},cardId,'exam-'+subj+'-final'));
+    row.appendChild(pillsDiv); body.appendChild(row);
+    var addRow=document.createElement('div'); addRow.className='add-row';
     addRow.innerHTML='<span class="add-lbl">'+subj+':</span>'
       +'<select id="sel-type-exam-'+subj+'"><option value="exam">Exam</option><option value="asgn">Assignment</option></select>'
       +'<input id="sel-label-exam-'+subj+'" placeholder="Task name"/>'
@@ -367,24 +303,32 @@ function buildExamCard(){
       +'<button onclick="addTask(\'exam-'+subj+'\',\''+cardId+'\',\'pills-exam-'+subj+'\')">+ Add</button>';
     body.appendChild(addRow);
   });
-  card.appendChild(body);
-  updateCardProg(cardId);
-  return card;
+  card.appendChild(body); updateCardProg(cardId); return card;
 }
 
 var container=document.getElementById('cards');
 for(var wk=1;wk<=12;wk++){
   container.appendChild(buildCard(wk));
-  if(wk===5){
+  if(wk===7){
     var br=document.createElement('div');
-    br.className='break-divider';
-    br.id='break-divider';
+    br.className='break-divider'; br.id='break-divider';
     br.textContent='Mid-semester break: 6 Apr \u2013 19 Apr';
     container.appendChild(br);
   }
 }
 container.appendChild(buildExamCard());
 updateProgDisplay();
+
+cloudLoad(function(cloudState){
+  var localRaw=null;
+  try{ localRaw=localStorage.getItem('uni_tracker_v1'); }catch(e){}
+  var localState=localRaw?JSON.parse(localRaw):{};
+  var state=cloudState&&Object.keys(cloudState).length?cloudState:localState;
+  applyState(state);
+  var loader=document.getElementById('loader');
+  loader.classList.add('hidden');
+  setTimeout(function(){loader.style.display='none';},400);
+});
 
 function updateCardProg(cardId){
   var pids=cardPills[cardId]||[];
@@ -394,22 +338,18 @@ function updateCardProg(cardId){
   var wcb=document.getElementById('wcb-'+cardId);
   if(wcb) wcb.classList.toggle('ticked',pids.length>0&&done===pids.length);
 }
-
 function updateProgDisplay(){
   var total=Object.keys(pillMap).length;
   var done=Object.values(pillMap).filter(function(p){return p.done;}).length;
   document.getElementById('prog').style.width=(total?Math.round(done/total*100):0)+'%';
   document.getElementById('ptxt').textContent=done+' / '+total;
 }
-
 function tickPill(id){
   if(!pillMap[id]) return;
   pillMap[id].done=!pillMap[id].done;
   document.getElementById(id).classList.toggle('done',pillMap[id].done);
-  updateCardProg(pillMap[id].cardId);
-  updateProgDisplay();
+  updateCardProg(pillMap[id].cardId); updateProgDisplay(); cloudSave();
 }
-
 function tickWeek(cardId){
   var pids=cardPills[cardId]||[];
   var allDone=pids.every(function(p){return pillMap[p]&&pillMap[p].done;});
@@ -418,10 +358,8 @@ function tickWeek(cardId){
     pillMap[pid].done=!allDone;
     document.getElementById(pid).classList.toggle('done',!allDone);
   });
-  updateCardProg(cardId);
-  updateProgDisplay();
+  updateCardProg(cardId); updateProgDisplay(); cloudSave();
 }
-
 function delPill(e,id){
   e.stopPropagation();
   if(!pillMap[id]) return;
@@ -429,31 +367,26 @@ function delPill(e,id){
   document.getElementById(id).remove();
   cardPills[cardId]=(cardPills[cardId]||[]).filter(function(p){return p!==id;});
   delete pillMap[id];
-  updateCardProg(cardId);
-  updateProgDisplay();
+  updateCardProg(cardId); updateProgDisplay(); cloudSave();
 }
-
 function addTask(key,cardId,pillsDivId){
   var typeEl=document.getElementById('sel-type-'+key);
   var labelEl=document.getElementById('sel-label-'+key);
   var dueEl=document.getElementById('sel-due-'+key);
   if(!typeEl||!labelEl||!labelEl.value.trim()) return;
   var task={type:typeEl.value,label:labelEl.value.trim(),due:dueEl?dueEl.value.trim():''};
+  var sk=key+'-'+task.type+'-'+task.label.replace(/\s/g,'_')+'-'+Date.now();
   var div=document.getElementById(pillsDivId);
-  if(div) div.appendChild(makePillEl(task,cardId));
-  labelEl.value='';
-  if(dueEl) dueEl.value='';
-  updateCardProg(cardId);
-  updateProgDisplay();
+  if(div) div.appendChild(makePillEl(task,cardId,sk));
+  labelEl.value=''; if(dueEl) dueEl.value='';
+  updateCardProg(cardId); updateProgDisplay(); cloudSave();
 }
-
 function toggleEdit(){
   editMode=!editMode;
   document.getElementById('editToggle').classList.toggle('on',editMode);
   document.getElementById('editToggle').textContent=editMode?'Done editing':'Edit mode';
   document.getElementById('cards').classList.toggle('edit-mode',editMode);
 }
-
 function filt(val,btn){
   document.querySelectorAll('.fbtn').forEach(function(b){b.classList.remove('active');});
   btn.classList.add('active');
