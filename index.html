@@ -7,14 +7,14 @@
 <style>
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
   :root {
-    --bg: #ffffff; --bg2: #f5f4f0; --bg3: #eeedea;
+    --bg: #ffffff; --bg2: #f5f4f0;
     --border: rgba(0,0,0,0.1); --border2: rgba(0,0,0,0.18);
     --text: #1a1a18; --text2: #6b6a65; --text3: #9b9a95;
     --green: #1D9E75; --red: #E24B4A; --amber: #BA7517;
   }
   @media (prefers-color-scheme: dark) {
     :root {
-      --bg: #1a1a18; --bg2: #242422; --bg3: #2e2e2b;
+      --bg: #1a1a18; --bg2: #242422;
       --border: rgba(255,255,255,0.1); --border2: rgba(255,255,255,0.18);
       --text: #e8e6df; --text2: #9b9a95; --text3: #6b6a65;
     }
@@ -114,8 +114,8 @@
 <div class="cards" id="cards"></div>
 
 <script>
-var BIN_ID='69c02838aa77b81da90b01b2';
-var API_KEY='$2a$10$3I3f/ztA/EPsmH9y/M965.cZsB6VN/LNgyuNHsyS.c1l0oNNWupP2';
+var BIN_ID='69c033beaa77b81da90b29b3';
+var API_KEY='$2a$10$pU0XiBXkpJvaeKiw4l3pGuw.QGRAX2dEWRMPHkTKiR/JvBmyxtHKu';
 var BIN_URL='https://api.jsonbin.io/v3/b/'+BIN_ID;
 
 var subjects=['CAD','Vibrations','Materials','Heat'];
@@ -189,7 +189,7 @@ function applyState(s){
   if(!s) return;
   Object.keys(pillMap).forEach(function(id){
     var k=pillMap[id].key;
-    if(k&&s[k]!==undefined&&s[k]!==pillMap[id].done){
+    if(k&&s[k]!==undefined){
       pillMap[id].done=s[k];
       var el=document.getElementById(id);
       if(el) el.classList.toggle('done',s[k]);
@@ -200,10 +200,15 @@ function applyState(s){
 }
 
 function cloudLoad(cb){
-  fetch(BIN_URL+'/latest',{headers:{'X-Master-Key':API_KEY,'X-Bin-Meta':false}})
-    .then(function(r){return r.json();})
-    .then(function(data){ cb(data||{}); })
-    .catch(function(){ cb(null); });
+  fetch(BIN_URL+'/latest',{
+    headers:{'X-Master-Key':API_KEY,'X-Bin-Meta':'false'}
+  })
+  .then(function(r){
+    if(!r.ok) throw new Error(r.status);
+    return r.json();
+  })
+  .then(function(data){ cb(data.record||data||{}); })
+  .catch(function(e){ console.warn('Load failed:',e); cb(null); });
 }
 
 function cloudSave(){
@@ -216,8 +221,12 @@ function cloudSave(){
     headers:{'Content-Type':'application/json','X-Master-Key':API_KEY},
     body:JSON.stringify(state)
   })
-  .then(function(r){ saving=false; if(r.ok) showInd('Saved \u2713'); else showInd('Save failed',true); })
-  .catch(function(){ saving=false; showInd('Offline \u2014 saved locally',true); });
+  .then(function(r){
+    saving=false;
+    if(r.ok) showInd('Saved \u2713');
+    else { r.text().then(function(t){console.warn('Save error:',t);}); showInd('Save failed',true); }
+  })
+  .catch(function(e){ saving=false; console.warn('Save error:',e); showInd('Offline \u2014 saved locally',true); });
 }
 
 function makePillEl(task,cardId,stableKey){
@@ -320,10 +329,9 @@ container.appendChild(buildExamCard());
 updateProgDisplay();
 
 cloudLoad(function(cloudState){
-  var localRaw=null;
-  try{ localRaw=localStorage.getItem('uni_tracker_v1'); }catch(e){}
-  var localState=localRaw?JSON.parse(localRaw):{};
-  var state=cloudState&&Object.keys(cloudState).length?cloudState:localState;
+  var localState={};
+  try{ var r=localStorage.getItem('uni_tracker_v1'); if(r) localState=JSON.parse(r); }catch(e){}
+  var state=(cloudState&&Object.keys(cloudState).length)?cloudState:localState;
   applyState(state);
   var loader=document.getElementById('loader');
   loader.classList.add('hidden');
