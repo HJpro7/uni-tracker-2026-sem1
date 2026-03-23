@@ -129,7 +129,8 @@ h1{font-size:22px;font-weight:600;margin-bottom:3px;}
 .gantt-row{display:flex;align-items:center;margin-bottom:7px;gap:8px;position:relative;z-index:2;}
 .gantt-lbl{font-size:11.5px;color:var(--text2);width:64px;flex-shrink:0;text-align:right;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
 .gantt-track{flex:1;border-radius:5px;background:var(--bg2);position:relative;min-height:24px;}
-.gantt-bar{position:absolute;top:3px;height:18px;border-radius:4px;font-size:10.5px;font-weight:500;display:flex;align-items:center;padding:0 7px;overflow:hidden;white-space:nowrap;min-width:4px;z-index:2;}
+.gantt-bar{position:absolute;top:3px;height:18px;border-radius:4px;font-size:10.5px;font-weight:500;display:flex;align-items:center;padding:0 7px;overflow:hidden;white-space:nowrap;min-width:4px;z-index:2;cursor:default;}
+.gantt-tooltip{position:fixed;background:var(--text);color:var(--bg);font-size:11px;padding:4px 9px;border-radius:7px;pointer-events:none;z-index:999;white-space:nowrap;opacity:0;transition:opacity .15s;}
 .gantt-today-line{position:absolute;top:-2px;bottom:-2px;width:2px;background:var(--red);opacity:0.6;z-index:5;}
 .gantt-today-row{position:relative;height:16px;margin-top:5px;}
 .gantt-today-lbl{position:absolute;font-size:10px;color:var(--red);font-weight:600;transform:translateX(-50%);white-space:nowrap;}
@@ -150,6 +151,7 @@ h1{font-size:22px;font-weight:600;margin-bottom:3px;}
 </style>
 </head>
 <body>
+<div class="gantt-tooltip" id="gTooltip"></div>
 <div class="container">
 <div class="loading-overlay" id="loader">Loading your tracker...</div>
 <h1>Uni semester tracker</h1>
@@ -165,7 +167,6 @@ h1{font-size:22px;font-weight:600;margin-bottom:3px;}
   <div class="spacer"></div>
   <span class="save-ind" id="saveInd">Saved</span>
   <button class="edit-btn" id="editToggle" onclick="toggleEdit()">Edit mode</button>
-  <button class="edit-btn" onclick="testNotif()">Test notif</button>
   <div class="prog-wrap">
     <div class="prog-track"><div class="prog-fill" id="prog" style="width:0%"></div></div>
     <span class="prog-txt" id="ptxt">0 / 0</span>
@@ -467,6 +468,24 @@ var months=[
   {lbl:'Jun',d:new Date(2026,5,1)},{lbl:'Jul',d:new Date(2026,6,1)},
 ];
 
+var _gTip=null;
+function showGTip(e,label){
+  var t=document.getElementById('gTooltip');
+  if(!t)return;
+  t.textContent=label;
+  t.style.opacity='1';
+  moveGTip(e);
+}
+function moveGTip(e){
+  var t=document.getElementById('gTooltip');
+  if(!t)return;
+  t.style.left=(e.clientX+12)+'px';
+  t.style.top=(e.clientY-28)+'px';
+}
+function hideGTip(){
+  var t=document.getElementById('gTooltip');
+  if(t)t.style.opacity='0';
+}
 function buildGantt(){
   var g=document.getElementById('gantt');g.innerHTML='';
   var now=new Date();now.setHours(0,0,0,0);
@@ -520,8 +539,16 @@ function buildGantt(){
       bar.style.left=l+'%';
       bar.style.width=Math.max(0.5,w)+'%';
       bar.style.top=(3+laneIdx*22)+'px';
-      bar.textContent=b.txt;
-      bar.title=b.txt;
+      if(w>8){
+        bar.textContent=b.txt;
+      } else {
+        bar.style.borderRadius='50%';bar.style.width='16px';bar.style.height='16px';bar.style.top=(3+laneIdx*22+1)+'px';bar.style.padding='0';
+        (function(label){
+          bar.addEventListener('mouseenter',function(e){showGTip(e,label);});
+          bar.addEventListener('mousemove',function(e){moveGTip(e);});
+          bar.addEventListener('mouseleave',function(){hideGTip();});
+        })(b.txt);
+      }
       track.appendChild(bar);
     });
     var trackH=Math.max(24,lanes.length*22+6);
