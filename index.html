@@ -842,7 +842,7 @@ function checkDeadlineNotifications(){
     else if(days<=7){title='Due in '+days+' days';tag=dl.id+'-7';}
     else return;
     var body=dl.subj+' — '+dl.label+(refDate?' ('+fmtDate(refDate)+')':'');
-    sendNotif(title,body,tag);
+    sendNotif(title,body,dl.id+'-'+Date.now());
   });
 }
 
