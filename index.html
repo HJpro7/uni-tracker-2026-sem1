@@ -164,6 +164,7 @@ h1{font-size:22px;font-weight:600;margin-bottom:3px;}
   <div class="spacer"></div>
   <span class="save-ind" id="saveInd">Saved</span>
   <button class="edit-btn" id="editToggle" onclick="toggleEdit()">Edit mode</button>
+  <button class="edit-btn" onclick="testNotif()">Test notif</button>
   <div class="prog-wrap">
     <div class="prog-track"><div class="prog-fill" id="prog" style="width:0%"></div></div>
     <span class="prog-txt" id="ptxt">0 / 0</span>
@@ -843,6 +844,19 @@ function checkDeadlineNotifications(){
   });
 }
 
+function testNotif(){
+  if(!('Notification' in window)){alert('Notifications not supported in this browser.');return;}
+  if(Notification.permission==='denied'){alert('Notifications are blocked. Go to browser site settings and allow notifications for this page, then refresh.');return;}
+  if(Notification.permission==='default'){
+    Notification.requestPermission().then(function(p){
+      if(p==='granted') new Notification('Test notification',{body:'Notifications are working!'});
+      else alert('Permission denied.');
+    });
+    return;
+  }
+  new Notification('Test notification',{body:'Notifications are working! Deadline checks will fire on page load.'});
+  checkDeadlineNotifications();
+}
 requestNotifPermission();
 setTimeout(function(){
   if(Notification.permission==='granted') checkDeadlineNotifications();
