@@ -216,8 +216,8 @@ h1{font-size:22px;font-weight:600;margin-bottom:3px;}
 </div>
 </div>
 <script>
-var DB_URL='https://uni-tracker-f035f-default-rtdb.asia-southeast1.firebasedatabase.app/tasks.json';
-var DB_DL_URL='https://uni-tracker-f035f-default-rtdb.asia-southeast1.firebasedatabase.app/deadlines.json';
+var DB_URL='https://uni-tracker-f035f-default-rtdb.asia-southeast1.firebasedatabase.app/5f3bbc683d2bfb14/tasks.json';
+var DB_DL_URL='https://uni-tracker-f035f-default-rtdb.asia-southeast1.firebasedatabase.app/5f3bbc683d2bfb14/deadlines.json';
 var subjects=['CAD','Vibrations','Materials','Heat'];
 var pillCls={lec:'p-lec',tut:'p-tut',lab:'p-lab',wksh:'p-wksh',asgn:'p-asgn',exam:'p-exam'};
 var editMode=false,pillMap={},cardPills={},idCounter=0,saveTimer=null,saveDebounce=null,dlSaveDebounce=null;
@@ -468,7 +468,7 @@ function delDl(id){
 
 function saveSubtasks(){
   try{localStorage.setItem('uni_subtasks_v1',JSON.stringify(subtasksMap));}catch(e){}
-  fetch('https://uni-tracker-f035f-default-rtdb.asia-southeast1.firebasedatabase.app/subtasks.json',{
+  fetch('https://uni-tracker-f035f-default-rtdb.asia-southeast1.firebasedatabase.app/5f3bbc683d2bfb14/subtasks.json',{
     method:'PUT',headers:{'Content-Type':'application/json'},body:JSON.stringify(subtasksMap)
   }).catch(function(){});
 }
@@ -835,7 +835,7 @@ buildDeadlines();
 Promise.all([
   fetch(DB_URL).then(function(r){return r.json();}).catch(function(){return null;}),
   fetch(DB_DL_URL).then(function(r){return r.json();}).catch(function(){return null;}),
-  fetch('https://uni-tracker-f035f-default-rtdb.asia-southeast1.firebasedatabase.app/subtasks.json').then(function(r){return r.json();}).catch(function(){return null;})
+  fetch('https://uni-tracker-f035f-default-rtdb.asia-southeast1.firebasedatabase.app/5f3bbc683d2bfb14/subtasks.json').then(function(r){return r.json();}).catch(function(){return null;})
 ]).then(function(results){
   var taskState=results[0];
   var dlState=results[1];
